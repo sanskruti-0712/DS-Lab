@@ -1,0 +1,103 @@
+/*Parenthesis Checker:
+Write a program using a  stack  for push, pop, peek, and isEmpty operations.
+*  Write isBalanced() Function that Iterates through the input expression,
+*  Pushes opening brackets onto the stack. For closing brackets, it checks 
+* the top of the stack for a matching opening bracket. Ensures that all 
+* opening brackets are matched by the end of the traversal. Main Function: 
+* Accepts a string expression from the user. Uses isBalanced() to determine 
+* if the parentheses in the expression are balanced.
+*/
+#include<iostream>
+using namespace std;
+
+class parenthesis{
+private:
+    int top;
+    char stack[18];
+    
+public:
+    parenthesis(){
+        top = -1;
+    }
+    
+    char peek(){
+        if(isEmpty()){
+            cout<<"Stack is Empty";
+            return '\0';
+        }
+        return stack[top];
+    }
+    
+    int isFull(){
+        if (top == 17){
+            cout<<"Stack is Full";
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+    
+    int isEmpty(){
+        if(top==-1){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+    
+    void push(char x){
+        if(!isFull()){
+            top +=1;
+            stack[top]=x;
+        }
+    }
+    
+    char pop(){
+        char x = '\0';
+        if(!isEmpty()){
+            x = stack[top];
+            top -=1;
+        }
+        return x;
+    }
+};
+    
+int main(){
+    parenthesis p;
+    string exp;
+    bool isBalanced = true;
+    
+    cout<<"Enter expression: ";
+    cin>>exp;
+    
+    for(int i=0; i<(int)exp.length(); i++){
+        if(exp[i]=='(' || exp[i]=='[' || exp[i]=='{'){
+            p.push(exp[i]);
+        }
+        else if(exp[i] == ')' || exp[i] == ']' || exp[i]=='}'){
+            if(p.isEmpty()){
+                isBalanced = false;
+                break;
+            }
+            
+            char c = p.pop();
+            
+            if((exp[i]==')' && c!='(') || (exp[i]==']' && c!='[') || (exp[i]=='}' && c!='{')){
+                isBalanced = false;
+                break;
+            }
+        }
+    }
+    
+    if(!p.isEmpty()){
+        isBalanced = false;
+    }
+    
+    if(isBalanced){
+        cout<<"\nExpression is BALANCED"<<endl;
+    }else{
+        cout<<"\nExpression is NOT BALANCED"<<endl;
+    }
+     
+     return 0;
+ }
